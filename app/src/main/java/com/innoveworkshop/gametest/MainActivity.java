@@ -14,6 +14,7 @@ import com.innoveworkshop.gametest.engine.GameObject;
 import com.innoveworkshop.gametest.engine.GameSurface;
 import com.innoveworkshop.gametest.engine.Rectangle;
 import com.innoveworkshop.gametest.engine.Vector;
+import com.innoveworkshop.gametest.engine.PlayerController;
 
 public class MainActivity extends AppCompatActivity {
     protected GameSurface gameSurface;
@@ -21,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     protected Button downButton;
     protected Button leftButton;
     protected Button rightButton;
-
     protected Game game;
 
     @Override
@@ -29,48 +29,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        findControls();
+
         gameSurface = (GameSurface) findViewById(R.id.gameSurface);
         game = new Game();
         gameSurface.setRootGameObject(game);
-
-        setupControls();
     }
 
-    private void setupControls() {
+    private void findControls() {
         upButton = (Button) findViewById(R.id.up_button);
-        upButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                game.circle.position.y -= 10;
-            }
-        });
-
         downButton = (Button) findViewById(R.id.down_button);
-        downButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                game.circle.position.y += 10;
-            }
-        });
-
         leftButton = (Button) findViewById(R.id.left_button);
-        leftButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                game.circle.position.x -= 10;
-            }
-        });
-
         rightButton = (Button) findViewById(R.id.right_button);
-        rightButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                game.circle.position.x += 10;
-            }
-        });
+    }
+
+    public Button[] GetControlButtons() {
+        return new Button[] {upButton, downButton, leftButton, rightButton};
     }
 
     class Game extends GameObject {
+        protected PlayerController playerController;
         public Circle circle;
 
         @Override
@@ -78,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
             super.onStart(surface);
 
             circle = new Circle(surface.getWidth() / 2, surface.getHeight() / 2, 100, Color.RED);
+            // Attach a controller to this game object
+            playerController = new PlayerController(circle, GetControlButtons());
             surface.addGameObject(circle);
 
             surface.addGameObject(new Rectangle(new Vector(surface.getWidth() / 3, surface.getHeight() / 3),
@@ -91,11 +71,7 @@ public class MainActivity extends AppCompatActivity {
         public void onFixedUpdate() {
             super.onFixedUpdate();
 
-            if (!circle.isFloored() && !circle.hitRightWall() && !circle.isDestroyed()) {
-                circle.setPosition(circle.position.x + 1, circle.position.y + 1);
-            } else {
-                circle.destroy();
-            }
+            playerController.onFixedUpdate();
         }
     }
 }
