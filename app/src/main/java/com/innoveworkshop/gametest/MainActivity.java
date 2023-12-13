@@ -68,6 +68,12 @@ public class MainActivity extends AppCompatActivity {
 
             surface.addGameObject(new DroppingRectangle(new Vector(surface.getWidth() / 3, surface.getHeight() / 3),
                     100, 100, 10, Color.rgb(128, 14, 80)));
+
+            GameObject rectWithGrav = new Rectangle(new Vector(surface.getWidth() * 2/3, surface.getHeight() / 3), 100, 100, Color.rgb(128, 14, 80));
+            rectWithGrav.rigidbody = new Rigidbody((rectWithGrav));
+            rectWithGrav.rigidbody.acceleration.y = 1;
+            surface.addGameObject(rectWithGrav);
+
         }
 
         @Override

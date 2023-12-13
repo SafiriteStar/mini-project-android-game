@@ -24,10 +24,14 @@ public class Rigidbody {
             // If we hit the floor or ceiling
             if (parentTransform.isFloored() || parentTransform.hitTopWall()) {
                 // Move ourselves back inbounds
-                while (parentTransform.isFloored() || parentTransform.hitTopWall()) {
-                    parentTransform.position.y -= Integer.signum((int) velocity.y);
+                while ((parentTransform.isFloored() || parentTransform.hitTopWall())) {
+                    if (parentTransform.isFloored()) {
+                        parentTransform.position.y += -1;
+                    }
+                    else {
+                        parentTransform.position.y += 1;
+                    }
                 }
-                parentTransform.position.y -= Integer.signum((int) velocity.y);
                 // And stop
                 velocity.y = 0;
             }
@@ -35,10 +39,14 @@ public class Rigidbody {
             // If we hit either wall
             if (parentTransform.hitLeftWall() || parentTransform.hitRightWall()) {
                 // Move ourselves back inbounds
-                while (parentTransform.hitRightWall() || parentTransform.hitLeftWall()) {
-                    parentTransform.position.x -= Integer.signum((int) velocity.x);
+                while ((parentTransform.hitRightWall() || parentTransform.hitLeftWall())) {
+                    if (parentTransform.hitRightWall()) {
+                        parentTransform.position.x += -1;
+                    }
+                    else {
+                        parentTransform.position.x += 1;
+                    }
                 }
-                parentTransform.position.x -= Integer.signum((int) velocity.x);
                 // And stop
                 velocity.x = 0;
             }

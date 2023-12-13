@@ -34,7 +34,7 @@ public class Rectangle extends GameObject implements Caged {
 
     @Override
     public boolean hitLeftWall() {
-        return (position.x - width / 2) <= gameSurface.getWidth();
+        return (position.x - width / 2) <= 0;
     }
 
     @Override
