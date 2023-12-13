@@ -16,10 +16,10 @@ public class PlayerController {
     protected GameObject targetGameobject;
     private boolean holdingUp, holdingDown, holdingLeft, holdingRight;
     private Vector acceleration;
-    private Vector velocity;
+
     public PlayerController(GameObject gameObject, Button[] buttonArray) {
-        this.acceleration = new Vector(1, 1);
-        this.velocity = new Vector(0, 0);
+        this.acceleration = new Vector(2, 2);
+        gameObject.rigidbody.drag = 1;
 
         targetGameobject = gameObject;
         this.upButton = buttonArray[0];
@@ -90,27 +90,23 @@ public class PlayerController {
 
     public void onFixedUpdate() {
         if (holdingUp) {
-            velocity.y += acceleration.y * -1;
+            targetGameobject.rigidbody.acceleration.y = acceleration.y * -1;
         }
         else if (holdingDown) {
-            velocity.y += acceleration.y;
+            targetGameobject.rigidbody.acceleration.y = acceleration.y;
         }
         else {
-            // If we aren't pressing a direction, slow down anyway
-            velocity.y -= Integer.signum((int) velocity.y);
+            targetGameobject.rigidbody.acceleration.y = 0;
         }
 
         if (holdingLeft) {
-            velocity.x += acceleration.x * -1;
+            targetGameobject.rigidbody.acceleration.x = acceleration.x * -1;
         }
         else if (holdingRight) {
-            velocity.x += acceleration.x * 1;
+            targetGameobject.rigidbody.acceleration.x = acceleration.x;
         }
         else {
-            velocity.x -= Integer.signum((int) velocity.x);
+            targetGameobject.rigidbody.acceleration.x = 0;
         }
-
-        targetGameobject.position.x += velocity.x;
-        targetGameobject.position.y += velocity.y;
     }
 }

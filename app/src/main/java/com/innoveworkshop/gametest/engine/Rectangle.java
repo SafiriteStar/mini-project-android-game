@@ -46,4 +46,9 @@ public class Rectangle extends GameObject implements Caged {
     public boolean isFloored() {
         return (position.y + height / 2) >= gameSurface.getHeight();
     }
+
+    @Override
+    public boolean hitTopWall() {
+        return (position.y - height / 2) <= 0;
+    }
 }

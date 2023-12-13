@@ -15,6 +15,7 @@ import com.innoveworkshop.gametest.engine.GameSurface;
 import com.innoveworkshop.gametest.engine.Rectangle;
 import com.innoveworkshop.gametest.engine.Vector;
 import com.innoveworkshop.gametest.engine.PlayerController;
+import com.innoveworkshop.gametest.engine.Rigidbody;
 
 public class MainActivity extends AppCompatActivity {
     protected GameSurface gameSurface;
@@ -55,7 +56,9 @@ public class MainActivity extends AppCompatActivity {
         public void onStart(GameSurface surface) {
             super.onStart(surface);
 
-            circle = new Circle(surface.getWidth() / 2, surface.getHeight() / 2, 100, Color.RED);
+            circle = new Circle(surface.getWidth() / 2, surface.getHeight() * (9 / 10) + 200, 100, Color.RED);
+            // Give this circle a rigidbody
+            circle.rigidbody = new Rigidbody(circle);
             // Attach a controller to this game object
             playerController = new PlayerController(circle, GetControlButtons());
             surface.addGameObject(circle);

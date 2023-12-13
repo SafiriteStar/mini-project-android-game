@@ -21,4 +21,10 @@ public interface Caged {
      * @return True if it's on the floor, otherwise False.
      */
     public boolean isFloored();
+    /**
+     * Checks if a GameObject is on the ceiling.
+     *
+     * @return True if it's on the ceiling, otherwise False.
+     */
+    public boolean hitTopWall();
 }

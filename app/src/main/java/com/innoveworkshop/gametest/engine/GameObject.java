@@ -3,8 +3,9 @@ package com.innoveworkshop.gametest.engine;
 import android.graphics.Canvas;
 import android.view.SurfaceView;
 
-public abstract class GameObject {
+public abstract class GameObject implements Caged {
     public Vector position;
+    public Rigidbody rigidbody;
 
     protected GameSurface gameSurface = null;
     protected boolean destroyed = false;
@@ -43,7 +44,30 @@ public abstract class GameObject {
         if (destroyed) {
             setPosition(-100, -100);
         }
+        if (rigidbody != null) {
+            rigidbody.OnFixedUpdate();
+        }
     }
 
     public void onDraw(Canvas canvas) {}
+
+    @Override
+    public boolean isFloored() {
+        return false;
+    }
+
+    @Override
+    public boolean hitTopWall() {
+        return false;
+    }
+
+    @Override
+    public boolean hitLeftWall() {
+        return false;
+    }
+
+    @Override
+    public boolean hitRightWall() {
+        return false;
+    }
 }

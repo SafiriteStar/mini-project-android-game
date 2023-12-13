@@ -26,7 +26,7 @@ public class Circle extends GameObject implements Caged {
 
     @Override
     public boolean hitLeftWall() {
-        return (position.x - radius) <= gameSurface.getWidth();
+        return (position.x - radius) <= 0;
     }
 
     @Override
@@ -38,4 +38,7 @@ public class Circle extends GameObject implements Caged {
     public boolean isFloored() {
         return (position.y + radius) >= gameSurface.getHeight();
     }
+
+    @Override
+    public boolean hitTopWall() {return (position.y - radius) <= 0; }
 }
