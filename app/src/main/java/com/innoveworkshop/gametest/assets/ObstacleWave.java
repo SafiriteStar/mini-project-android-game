@@ -12,7 +12,7 @@ public class ObstacleWave implements LevelAction {
     private int timeBetweenObstacles = 0;
     private int obstacleSpawnTimer = 0;
     private Queue<GameObject> obstacles;
-    private GameSurface gameSurface;
+    private final GameSurface gameSurface;
 
     public ObstacleWave(Queue<GameObject> obstacles, GameSurface gameSurface, int timeBetweenObstacles) {
         this.obstacles = obstacles;

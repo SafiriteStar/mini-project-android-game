@@ -6,7 +6,6 @@ import android.graphics.Paint;
 
 public class Circle extends GameObject implements Caged {
     public float radius;
-    public Paint paint;
 
     public Circle(float x, float y, float radius, int color) {
         super(x, y);
@@ -22,6 +21,16 @@ public class Circle extends GameObject implements Caged {
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawCircle(position.x, position.y, radius, paint);
+    }
+
+    @Override
+    public boolean AskForCollision() {
+        return gameSurface.CheckCollisionFromCircle(position.x, position.y, radius);
+    }
+
+    @Override
+    public boolean CheckCollisionWithCircle(float x, float y, float r) {
+        return Math.sqrt(Math.pow(x - position.x, 2) + Math.pow(y - position.y, 2)) <= radius + r;
     }
 
     @Override

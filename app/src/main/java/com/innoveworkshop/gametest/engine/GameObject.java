@@ -1,11 +1,14 @@
 package com.innoveworkshop.gametest.engine;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.view.SurfaceView;
 
 public abstract class GameObject implements Caged {
     public Vector position;
     public Rigidbody rigidbody;
+    public boolean hasCollider = false;
+    public Paint paint;
     protected GameSurface gameSurface = null;
     protected boolean destroyed = false;
 
@@ -51,6 +54,9 @@ public abstract class GameObject implements Caged {
     }
 
     public void onDraw(Canvas canvas) {}
+
+    public boolean AskForCollision() { return false; }
+    public boolean CheckCollisionWithCircle(float x, float y, float r) { return false; }
 
     @Override
     public boolean isFloored() {

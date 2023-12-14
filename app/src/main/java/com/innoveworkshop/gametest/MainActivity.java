@@ -20,6 +20,7 @@ import com.innoveworkshop.gametest.engine.Rectangle;
 import com.innoveworkshop.gametest.engine.Vector;
 import com.innoveworkshop.gametest.engine.PlayerController;
 import com.innoveworkshop.gametest.engine.Rigidbody;
+import com.innoveworkshop.gametest.engine.CircleObstacle;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -76,8 +77,7 @@ public class MainActivity extends AppCompatActivity {
             surface.addGameObject(new DroppingRectangle(new Vector(surface.getWidth() / 3, surface.getHeight() / 3),
                     100, 100, 10, Color.rgb(128, 14, 80)));
 
-            GameObject circleTest = new Circle(surface.getWidth() + 100, surface.getHeight() / 3, 50, Color.RED);
-            circleTest.rigidbody = new Rigidbody((circleTest));
+            GameObject circleTest = new CircleObstacle(surface.getWidth() + 100, surface.getHeight() / 3, 50, Color.RED, 60);
             circleTest.rigidbody.velocity.x = -30;
             circleTest.rigidbody.acceleration.x = 1f;
             circleTest.rigidbody.acceleration.y = 0.2f;
@@ -104,18 +104,21 @@ public class MainActivity extends AppCompatActivity {
 
             // Create 3 balls that will spawn
             for (int i = 0; i < 3; i++) {
-                GameObject circleTest = new Circle(surface.getWidth() + 100, surface.getHeight() / 3, 50, Color.RED);
-                circleTest.rigidbody = new Rigidbody((circleTest));
+                GameObject circleTest = new CircleObstacle(surface.getWidth() + 100, surface.getHeight() / 3, 50, Color.RED, 60);
                 circleTest.rigidbody.velocity.x = -30;
                 circleTest.rigidbody.acceleration.x = 1f;
                 circleTest.rigidbody.acceleration.y = 0.2f;
                 // Add them to the queue
-                testWave.AddObstacle((circleTest));
+                testWave.AddObstacle(circleTest);
             }
             levelActions.add(testWave);
 
             obstacleSpawner = new ObstacleSpawner(levelActions);
             surface.addGameObject(obstacleSpawner);
+
+            GameObject circleRotationPoint = new CircleObstacle(surface.getWidth() / 2, surface.getHeight() / 2, 50, Color.BLACK, 9000);
+            circleRotationPoint.rigidbody.velocity.y = -5;
+            surface.addGameObject(circleRotationPoint);
         }
     }
 }

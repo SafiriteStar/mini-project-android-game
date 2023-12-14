@@ -1,6 +1,7 @@
 package com.innoveworkshop.gametest.engine;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -110,6 +111,13 @@ public class PlayerController {
             }
             else {
                 targetGameobject.rigidbody.acceleration.x = 0;
+            }
+
+            if (targetGameobject.AskForCollision()) {
+                targetGameobject.paint.setColor(Color.RED);
+            }
+            else {
+                targetGameobject.paint.setColor(Color.GREEN);
             }
         }
     }

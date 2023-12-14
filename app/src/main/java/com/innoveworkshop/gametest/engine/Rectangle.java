@@ -6,7 +6,6 @@ import android.graphics.Paint;
 public class Rectangle extends GameObject implements Caged {
     public float width;
     public float height;
-    public Paint paint;
 
     public Rectangle(Vector position, float width, float height, int color) {
         super(position);

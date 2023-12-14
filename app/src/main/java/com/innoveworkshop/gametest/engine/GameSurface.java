@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -79,6 +80,18 @@ public class GameSurface extends SurfaceView {
 
     public boolean removeGameObject(GameObject gameObject) {
         return gameObjects.remove(gameObject);
+    }
+
+    public boolean CheckCollisionFromCircle(float x, float y, float r) {
+        for (GameObject gameObject : gameObjects) {
+            if (gameObject.hasCollider) {
+                if (gameObject.CheckCollisionWithCircle(x, y, r)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     @Override
