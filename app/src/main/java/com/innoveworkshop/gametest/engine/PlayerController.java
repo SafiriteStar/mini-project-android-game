@@ -16,10 +16,12 @@ public class PlayerController {
     protected GameObject targetGameobject;
     private boolean holdingUp, holdingDown, holdingLeft, holdingRight;
     private Vector acceleration;
+    public boolean enabled = true;
 
     public PlayerController(GameObject gameObject, Button[] buttonArray) {
         this.acceleration = new Vector(2, 2);
         gameObject.rigidbody.drag = 1;
+        gameObject.rigidbody.caged = true;
 
         targetGameobject = gameObject;
         this.upButton = buttonArray[0];
@@ -89,24 +91,26 @@ public class PlayerController {
     }
 
     public void onFixedUpdate() {
-        if (holdingUp) {
-            targetGameobject.rigidbody.acceleration.y = acceleration.y * -1;
-        }
-        else if (holdingDown) {
-            targetGameobject.rigidbody.acceleration.y = acceleration.y;
-        }
-        else {
-            targetGameobject.rigidbody.acceleration.y = 0;
-        }
+        if (enabled) {
+            if (holdingUp) {
+                targetGameobject.rigidbody.acceleration.y = acceleration.y * -1;
+            }
+            else if (holdingDown) {
+                targetGameobject.rigidbody.acceleration.y = acceleration.y;
+            }
+            else {
+                targetGameobject.rigidbody.acceleration.y = 0;
+            }
 
-        if (holdingLeft) {
-            targetGameobject.rigidbody.acceleration.x = acceleration.x * -1;
-        }
-        else if (holdingRight) {
-            targetGameobject.rigidbody.acceleration.x = acceleration.x;
-        }
-        else {
-            targetGameobject.rigidbody.acceleration.x = 0;
+            if (holdingLeft) {
+                targetGameobject.rigidbody.acceleration.x = acceleration.x * -1;
+            }
+            else if (holdingRight) {
+                targetGameobject.rigidbody.acceleration.x = acceleration.x;
+            }
+            else {
+                targetGameobject.rigidbody.acceleration.x = 0;
+            }
         }
     }
 }

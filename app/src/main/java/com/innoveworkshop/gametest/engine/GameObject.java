@@ -6,7 +6,6 @@ import android.view.SurfaceView;
 public abstract class GameObject implements Caged {
     public Vector position;
     public Rigidbody rigidbody;
-
     protected GameSurface gameSurface = null;
     protected boolean destroyed = false;
 
@@ -44,8 +43,10 @@ public abstract class GameObject implements Caged {
         if (destroyed) {
             setPosition(-100, -100);
         }
-        if (rigidbody != null) {
-            rigidbody.OnFixedUpdate();
+        else {
+            if (rigidbody != null) {
+                rigidbody.OnFixedUpdate();
+            }
         }
     }
 

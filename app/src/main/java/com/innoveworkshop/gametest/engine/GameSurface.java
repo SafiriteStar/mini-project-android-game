@@ -94,7 +94,8 @@ public class GameSurface extends SurfaceView {
     class FixedUpdateTimer extends TimerTask {
         @Override
         public void run() {
-            for (GameObject gameObject : gameObjects) {
+            ArrayList<GameObject> tempList = new ArrayList<GameObject>(gameObjects);
+            for (GameObject gameObject : tempList) {
                 gameObject.onFixedUpdate();
             }
 
