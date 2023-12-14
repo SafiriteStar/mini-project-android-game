@@ -1,6 +1,9 @@
 package com.innoveworkshop.gametest.assets;
 
+import android.graphics.Color;
+
 import com.innoveworkshop.gametest.assets.LevelAction;
+import com.innoveworkshop.gametest.engine.CircleObstacle;
 import com.innoveworkshop.gametest.engine.GameObject;
 import com.innoveworkshop.gametest.engine.GameSurface;
 
@@ -18,6 +21,18 @@ public class ObstacleWave implements LevelAction {
         this.obstacles = obstacles;
         this.gameSurface = gameSurface;
         this.timeBetweenObstacles = timeBetweenObstacles;
+    }
+
+    public void GenerateCircleWave(int numberOfCircles, float spawnX, float spawnY, int size, float lifeTime, float velocityX, float velocityY, float accelerationX, float accelerationY) {
+        for (int i = 0; i < numberOfCircles; i++) {
+            GameObject circleTest = new CircleObstacle(spawnX, spawnY, size, Color.RED, lifeTime);
+            circleTest.rigidbody.velocity.x = velocityX;
+            circleTest.rigidbody.velocity.y = velocityY;
+            circleTest.rigidbody.acceleration.x = accelerationX;
+            circleTest.rigidbody.acceleration.y = accelerationY;
+            // Add them to the queue
+            AddObstacle(circleTest);
+        }
     }
 
     public void AddObstacle(GameObject obstacle) {

@@ -115,10 +115,16 @@ public class PlayerController {
 
             if (targetGameobject.AskForCollision()) {
                 targetGameobject.paint.setColor(Color.RED);
+
+                targetGameobject.destroy();
             }
             else {
                 targetGameobject.paint.setColor(Color.GREEN);
             }
         }
+    }
+
+    public boolean isDead() {
+        return targetGameobject.destroyed;
     }
 }

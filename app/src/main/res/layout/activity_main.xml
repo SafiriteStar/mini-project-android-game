@@ -31,22 +31,21 @@
             android:id="@+id/up_button"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginStart="100dp"
+            android:layout_marginStart="168dp"
             android:layout_marginTop="16dp"
             android:text="U"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/down_button"
+            android:id="@+id/right_button"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginTop="28dp"
-            android:text="D"
-            app:layout_constraintEnd_toEndOf="@+id/up_button"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/up_button"
-            app:layout_constraintTop_toBottomOf="@+id/up_button" />
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="48dp"
+            android:text="R"
+            app:layout_constraintStart_toEndOf="@+id/up_button"
+            app:layout_constraintTop_toTopOf="@+id/up_button" />
 
         <Button
             android:id="@+id/left_button"
@@ -58,13 +57,29 @@
             app:layout_constraintTop_toTopOf="@+id/up_button" />
 
         <Button
-            android:id="@+id/right_button"
+            android:id="@+id/down_button"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginTop="48dp"
-            android:text="R"
-            app:layout_constraintStart_toEndOf="@+id/up_button"
-            app:layout_constraintTop_toTopOf="@+id/up_button" />
+            android:layout_marginTop="28dp"
+            android:text="D"
+            app:layout_constraintEnd_toEndOf="@+id/up_button"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/up_button"
+            app:layout_constraintTop_toBottomOf="@+id/up_button" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/game_over_text"
+        android:layout_width="300dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="260dp"
+        android:text="Game Over"
+        android:textAlignment="center"
+        android:textSize="60dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/gameSurface" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,11 +2,13 @@ package com.innoveworkshop.gametest;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.innoveworkshop.gametest.assets.DroppingRectangle;
 import com.innoveworkshop.gametest.assets.LevelAction;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     protected Button downButton;
     protected Button leftButton;
     protected Button rightButton;
+    protected TextView gameOverTextView;
     protected Game game;
 
     @Override
@@ -39,10 +42,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         findControls();
+        gameOverTextView = (TextView) findViewById(R.id.game_over_text);
+        gameOverTextView.setVisibility(View.INVISIBLE);
 
         gameSurface = (GameSurface) findViewById(R.id.gameSurface);
         game = new Game();
         gameSurface.setRootGameObject(game);
+
     }
 
     private void findControls() {
@@ -54,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
 
     public Button[] GetControlButtons() {
         return new Button[] {upButton, downButton, leftButton, rightButton};
+    }
+
+    public void DisplayGameOver() {
+        gameOverTextView.setVisibility(View.VISIBLE);
     }
 
     class Game extends GameObject {
@@ -73,15 +83,6 @@ public class MainActivity extends AppCompatActivity {
             // Attach a controller to this game object
             playerController = new PlayerController(circle, GetControlButtons());
             surface.addGameObject(circle);
-
-            surface.addGameObject(new DroppingRectangle(new Vector(surface.getWidth() / 3, surface.getHeight() / 3),
-                    100, 100, 10, Color.rgb(128, 14, 80)));
-
-            GameObject circleTest = new CircleObstacle(surface.getWidth() + 100, surface.getHeight() / 3, 50, Color.RED, 60);
-            circleTest.rigidbody.velocity.x = -30;
-            circleTest.rigidbody.acceleration.x = 1f;
-            circleTest.rigidbody.acceleration.y = 0.2f;
-            surface.addGameObject(circleTest);
         }
 
         @Override
@@ -91,34 +92,85 @@ public class MainActivity extends AppCompatActivity {
             playerController.onFixedUpdate();
         }
 
+        @Override
+        public void onDraw(Canvas canvas) {
+            if (playerController.isDead()) {
+                gameOverTextView.setVisibility(View.VISIBLE);
+            }
+        }
+
         private void GenerateObstacles(GameSurface surface) {
             // Here we want to make obstacles that the player will have to deal with as they play the level
             // Instantiate the levelActions
             Queue<LevelAction> levelActions = new LinkedList<>();
 
             // First make the player wait 2 seconds
-            levelActions.add(new WaitAction(100));
+            levelActions.add(new WaitAction(1));
 
             // Start making 3 balls that will appear from the right, move left at first before turning back right
-            ObstacleWave testWave = new ObstacleWave(new LinkedList<>(), surface, 50);
+            levelActions.add(IncrementalSpawnCircleWave(surface,
+                    20,
+                    5,
+                    surface.getWidth() + 60,
+                    0,
+                    0,
+                    surface.getHeight() * 1/8,
+                    50,
+                    60,
+                    -30,
+                    0,
+                    1,
+                    0.2f));
 
-            // Create 3 balls that will spawn
-            for (int i = 0; i < 3; i++) {
-                GameObject circleTest = new CircleObstacle(surface.getWidth() + 100, surface.getHeight() / 3, 50, Color.RED, 60);
-                circleTest.rigidbody.velocity.x = -30;
-                circleTest.rigidbody.acceleration.x = 1f;
-                circleTest.rigidbody.acceleration.y = 0.2f;
-                // Add them to the queue
-                testWave.AddObstacle(circleTest);
-            }
-            levelActions.add(testWave);
+            levelActions.add(IncrementalSpawnCircleWave(surface,
+                    20,
+                    5,
+                    -100,
+                    0,
+                    surface.getHeight() * 5/8,
+                    surface.getHeight() * -1/8,
+                    50,
+                    120,
+                    50,
+                    0,
+                    -1,
+                    0.2f));
+
+            // Big to top down
+            levelActions.add(SimpleCircleWave(surface,
+                    50,
+                    5,
+                    surface.getWidth() / 2,
+                    -100,
+                    75,
+                    60,
+                    0,
+                    30,
+                    0,
+                    1f));
 
             obstacleSpawner = new ObstacleSpawner(levelActions);
             surface.addGameObject(obstacleSpawner);
+        }
 
-            GameObject circleRotationPoint = new CircleObstacle(surface.getWidth() / 2, surface.getHeight() / 2, 50, Color.BLACK, 9000);
-            circleRotationPoint.rigidbody.velocity.y = -5;
-            surface.addGameObject(circleRotationPoint);
+        public ObstacleWave SimpleCircleWave(GameSurface gameSurface, int timeBetweenObstacles, int numberOfCircles, float spawnX, float spawnY, int size, float lifeTime, float velocityX, float velocityY, float accelerationX, float accelerationY) {
+            ObstacleWave obstacleWave = new ObstacleWave(new LinkedList<>(), gameSurface, timeBetweenObstacles);
+            obstacleWave.GenerateCircleWave(numberOfCircles, spawnX, spawnY, size, lifeTime, velocityX, velocityY, accelerationX, accelerationY);
+            return obstacleWave;
+        }
+
+        public ObstacleWave IncrementalSpawnCircleWave(GameSurface gameSurface, int timeBetweenObstacles, int numberOfCircles, float spawnX, float spawnXIncrement, float spawnY, float spawnYIncrement, int size, float lifeTime, float velocityX, float velocityY, float accelerationX, float accelerationY) {
+            ObstacleWave obstacleWave = new ObstacleWave(new LinkedList<>(), gameSurface, timeBetweenObstacles);
+            for (int i = 0; i < numberOfCircles; i++) {
+                GameObject circleTest = new CircleObstacle(spawnX + (spawnXIncrement * i), spawnY + (spawnYIncrement * i), size, Color.RED, lifeTime);
+                circleTest.rigidbody.velocity.x = velocityX;
+                circleTest.rigidbody.velocity.y = velocityY;
+                circleTest.rigidbody.acceleration.x = accelerationX;
+                circleTest.rigidbody.acceleration.y = accelerationY;
+                // Add them to the queue
+                obstacleWave.AddObstacle(circleTest);
+            }
+            return obstacleWave;
         }
     }
 }
