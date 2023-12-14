@@ -6,7 +6,7 @@ import com.innoveworkshop.gametest.engine.GameSurface;
 import java.util.Queue;
 
 public class ObstacleSpawner extends GameObject {
-    Queue<LevelAction> levelActions;
+    public Queue<LevelAction> levelActions;
     LevelAction currentLevelAction;
 
     public ObstacleSpawner(Queue<LevelAction> levelActions) {

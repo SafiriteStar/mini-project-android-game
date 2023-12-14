@@ -10,13 +10,15 @@
         android:id="@+id/gameSurface"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="#387B95"
         android:outlineAmbientShadowColor="@color/black"
         android:outlineSpotShadowColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/controls_layout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/controls_layout"
@@ -77,8 +79,19 @@
         android:layout_marginTop="260dp"
         android:text="Game Over"
         android:textAlignment="center"
-        android:textSize="60dp"
+        android:textSize="34sp"
         android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/gameSurface" />
+
+    <TextView
+        android:id="@+id/on_going_score"
+        android:layout_width="183dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Score: "
+        android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/gameSurface" />
 
